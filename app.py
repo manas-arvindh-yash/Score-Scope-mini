@@ -43,17 +43,29 @@ attendance = st.slider("Attendance (%)", 0, 100, 80)
 midterm = st.number_input("Midterm Score", 0, 100, 60)
 final = st.number_input("Final Score", 0, 100, 70)
 hours = st.slider("Study Hours per Week", 0, 60, 15)
-
 if st.button("Predict Score"):
     data = {
         'Gender': encoders['Gender'].transform([gender])[0],
-        'Age': age, 'Department': 0, 'Attendance (%)': attendance,
-        'Midterm_Score': midterm, 'Final_Score': final,
-        'Assignments_Avg': 70, 'Projects_Score': 65, 'Study_Hours_per_Week': hours,
-        'Extracurricular_Activities': 0, 'Quizzes_Avg': 60,
-        'Internet_Access_at_Home': 1, 'Parent_Education_Level': 2,
-        'Family_Income_Level': 1, 'Stress_Level (1-10)': 5,
+        'Age': age,
+        'Department': 0,
+        'Attendance (%)': attendance,
+        'Midterm_Score': midterm,
+        'Final_Score': final,
+        'Assignments_Avg': 70,
+        'Projects_Score': 65,
+        'Study_Hours_per_Week': hours,
+        'Extracurricular_Activities': 0,
+        'Quizzes_Avg': 60,
+        'Internet_Access_at_Home': 1,
+        'Parent_Education_Level': 2,
+        'Family_Income_Level': 1,
+        'Stress_Level (1-10)': 5,
         'Sleep_Hours_per_Night': 7
     }
-    pred = model.predict(pd.DataFrame([data]))[0]
+
+    input_df = pd.DataFrame([data])
+    input_df = input_df.reindex(columns=X.columns, fill_value=0)  # ✅ match training columns
+
+    pred = model.predict(input_df)[0]
     st.success(f"Predicted Total Score: {pred:.2f}")
+
