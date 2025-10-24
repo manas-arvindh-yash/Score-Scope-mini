@@ -5,7 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-st.title("🎓 Simple Student Performance Predictor")
+st.title("ScoreScope")
 
 # Load dataset
 df = pd.read_csv("cstperformance01.csv")
@@ -67,5 +67,5 @@ if st.button("Predict Score"):
     input_df = input_df.reindex(columns=X.columns, fill_value=0)  # ✅ match training columns
 
     pred = model.predict(input_df)[0]
-    st.success(f"Predicted Total Score: {pred:.2f}")
+    st.success(f"Your Predicted Score is: {pred:.2f}")
 
