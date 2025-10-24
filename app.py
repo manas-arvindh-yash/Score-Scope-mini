@@ -9,6 +9,19 @@ st.title("🎓 Simple Student Performance Predictor")
 
 # Load dataset
 df = pd.read_csv("cstperformance01.csv")
+# Drop rows with missing values
+df = df.dropna()
+
+# Encode all object (text) columns
+for c in df.select_dtypes(include='object').columns:
+    df[c] = df[c].astype('category').cat.codes
+
+# Make sure everything is numeric
+X = df.drop(columns=['Total_Score'])
+y = df['Total_Score']
+
+model = LinearRegression().fit(X, y)
+
 
 # Basic preprocessing
 label_cols = ['Gender', 'Department', 'Extracurricular_Activities', 
